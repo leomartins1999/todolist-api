@@ -16,6 +16,8 @@ repositories {
 }
 
 dependencies {
+	val h2Version = "1.4.200"
+
 	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -27,6 +29,7 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
+	testImplementation("com.h2database:h2:$h2Version")
 }
 
 tasks.withType<KotlinCompile> {
