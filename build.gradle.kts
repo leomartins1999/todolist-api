@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
 	val h2Version = "1.4.200"
+	val mockitoVersion = "3.2.0"
 
 	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -30,6 +31,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("com.h2database:h2:$h2Version")
+	testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoVersion")
 }
 
 tasks.withType<KotlinCompile> {
