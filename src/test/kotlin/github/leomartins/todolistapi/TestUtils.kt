@@ -1,6 +1,7 @@
 package github.leomartins.todolistapi
 
 import github.leomartins.todolistapi.domain.Todo
+import github.leomartins.todolistapi.domain.TodoList
 
 fun buildTodo() = Todo(
     title = "todo-${System.currentTimeMillis()}",
@@ -9,3 +10,5 @@ fun buildTodo() = Todo(
 )
 
 fun Todo.isEqualTo(other: Todo) = title == other.title && description == other.description && done == other.done
+
+fun TodoList.isEqualTo(other: TodoList) = title == other.title && description == other.description
