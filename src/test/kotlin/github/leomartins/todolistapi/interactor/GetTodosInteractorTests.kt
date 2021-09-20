@@ -1,6 +1,6 @@
 package github.leomartins.todolistapi.interactor
 
-import github.leomartins.todolistapi.domain.Todo
+import github.leomartins.todolistapi.buildTodo
 import github.leomartins.todolistapi.repository.TodoRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -48,11 +48,5 @@ class GetTodosInteractorTests {
             assert(results.any { todo -> todo == expected })
         }
     }
-
-    private fun buildTodo() = Todo(
-        title = "todo-${System.currentTimeMillis()}",
-        description = "desc",
-        done = false
-    )
 
 }
