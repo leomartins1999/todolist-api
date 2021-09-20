@@ -1,17 +1,19 @@
 package github.leomartins.todolistapi.controller
 
 import github.leomartins.todolistapi.domain.TodoList
+import github.leomartins.todolistapi.interactor.GetTodoListsInteractor
 import github.leomartins.todolistapi.interactor.SaveTodoListInteractor
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(value = [TODO_LIST_PATH])
 class TodoListController(
-    private val saveTodoListInteractor: SaveTodoListInteractor
+    private val saveTodoListInteractor: SaveTodoListInteractor,
+    private val getTodoListsInteractor: GetTodoListsInteractor
 ) {
+
+    @GetMapping
+    fun getTodoLists() = getTodoListsInteractor.call()
 
     @PostMapping
     fun saveTodoList(
