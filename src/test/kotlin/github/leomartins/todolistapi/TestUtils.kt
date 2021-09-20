@@ -11,4 +11,9 @@ fun buildTodo() = Todo(
 
 fun Todo.isEqualTo(other: Todo) = title == other.title && description == other.description && done == other.done
 
+fun buildTodoList() = TodoList(
+    title = "todo-list-${System.currentTimeMillis()}",
+    description = "todo-list-description"
+)
+
 fun TodoList.isEqualTo(other: TodoList) = title == other.title && description == other.description
