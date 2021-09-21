@@ -34,5 +34,4 @@ class SaveTodoListInteractorTests {
         assert(todoList.isEqualTo(result))
         assert(repository.findAll().first().isEqualTo(todoList))
     }
-
 }

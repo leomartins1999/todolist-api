@@ -10,5 +10,4 @@ class GetTodoListsInteractor(
 ) {
 
     fun call(): List<TodoList> = repository.findAll().toList()
-
 }

@@ -29,5 +29,4 @@ class ExceptionHandler {
     fun illegalStateException(ex: IllegalStateException) {
         logger.error("Exception thrown:", ex)
     }
-
 }

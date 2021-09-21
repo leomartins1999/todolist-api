@@ -10,5 +10,4 @@ class SaveTodoListInteractor(
 ) {
 
     fun call(todoList: TodoList) = repository.save(todoList)
-
 }

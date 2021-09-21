@@ -48,5 +48,4 @@ class GetTodosInteractorTests {
             assert(results.any { todo -> todo == expected })
         }
     }
-
 }

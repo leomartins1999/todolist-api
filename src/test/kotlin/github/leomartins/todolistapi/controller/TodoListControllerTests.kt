@@ -10,7 +10,11 @@ import github.leomartins.todolistapi.interactor.SaveTodoListInteractor
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doAnswer
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.doThrow
+import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -64,7 +68,6 @@ class TodoListControllerTests {
                 .expectStatus()
                 .isBadRequest
         }
-
     }
 
     @Nested
@@ -187,5 +190,4 @@ class TodoListControllerTests {
     private fun WebTestClient.addTodoToList(todoListId: Int = 1, todoId: Int = 1) = put()
         .uri("/todo-lists/$todoListId/todos/$todoId")
         .exchange()
-
 }
