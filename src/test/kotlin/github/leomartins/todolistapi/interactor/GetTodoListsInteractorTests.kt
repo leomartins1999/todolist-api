@@ -40,5 +40,4 @@ class GetTodoListsInteractorTests {
         assert(result.isNotEmpty())
         lists.forEach { list -> assert(result.any { result -> list.isEqualTo(result) }) }
     }
-
 }

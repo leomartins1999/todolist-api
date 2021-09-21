@@ -19,5 +19,4 @@ class GetTodosForListInteractor(
 
         return todoRepository.findAllByTodoListId(listId)
     }
-
 }

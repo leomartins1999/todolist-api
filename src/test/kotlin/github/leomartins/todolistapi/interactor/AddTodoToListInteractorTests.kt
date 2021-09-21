@@ -89,5 +89,4 @@ class AddTodoToListInteractorTests {
         const val FAKE_TODO_ID = -1
         const val FAKE_TODO_LIST_ID = -1
     }
-
 }

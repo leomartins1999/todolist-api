@@ -10,5 +10,4 @@ class GetTodosInteractor(
 ) {
 
     fun call(): List<Todo> = todoRepository.findAll().toList()
-
 }

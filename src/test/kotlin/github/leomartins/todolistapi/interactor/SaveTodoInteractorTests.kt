@@ -31,5 +31,4 @@ class SaveTodoInteractorTests {
         assertEquals(1, repository.count())
         assert(todo.isEqualTo(repository.findAll().first()))
     }
-
 }

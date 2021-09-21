@@ -69,5 +69,4 @@ class GetTodosForListInteractorTests {
     private companion object {
         const val FAKE_LIST_ID = -1
     }
-
 }

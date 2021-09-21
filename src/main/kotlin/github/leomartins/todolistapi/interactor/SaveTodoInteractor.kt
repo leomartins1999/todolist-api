@@ -10,5 +10,4 @@ class SaveTodoInteractor(
 ) {
 
     fun call(todo: Todo) = repository.save(todo)
-
 }

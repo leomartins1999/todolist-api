@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.reactive.server.WebTestClient
-import reactor.kotlin.core.publisher.toMono
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TodoControllerTests {
@@ -57,7 +56,6 @@ class TodoControllerTests {
                 .jsonPath("$[0].done").isEqualTo(todos[0].done)
                 .jsonPath("$[1].title").isEqualTo(todos[1].title)
         }
-
     }
 
     @Nested
@@ -97,7 +95,6 @@ class TodoControllerTests {
                 .expectStatus()
                 .is4xxClientError
         }
-
     }
 
     private fun WebTestClient.getTodos() = get()
@@ -118,5 +115,4 @@ class TodoControllerTests {
             )
         )
         .exchange()
-
 }

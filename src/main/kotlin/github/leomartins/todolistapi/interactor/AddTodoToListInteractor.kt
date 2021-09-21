@@ -26,5 +26,4 @@ class AddTodoToListInteractor(
             throw IllegalStateException()
         }
     }
-
 }
