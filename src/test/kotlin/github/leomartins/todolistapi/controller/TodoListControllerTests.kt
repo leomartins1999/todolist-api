@@ -3,20 +3,19 @@ package github.leomartins.todolistapi.controller
 import github.leomartins.todolistapi.buildTodo
 import github.leomartins.todolistapi.buildTodoList
 import github.leomartins.todolistapi.domain.TodoList
+import github.leomartins.todolistapi.interactor.AddTodoToListInteractor
 import github.leomartins.todolistapi.interactor.GetTodoListsInteractor
 import github.leomartins.todolistapi.interactor.GetTodosForListInteractor
 import github.leomartins.todolistapi.interactor.SaveTodoListInteractor
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.any
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.doThrow
-import org.mockito.kotlin.whenever
+import org.mockito.kotlin.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.reactive.server.WebTestClient
+import java.lang.IllegalStateException
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TodoListControllerTests {
@@ -32,6 +31,9 @@ class TodoListControllerTests {
 
     @MockBean
     private lateinit var getTodosForListInteractor: GetTodosForListInteractor
+
+    @MockBean
+    private lateinit var addTodoToListInteractor: AddTodoToListInteractor
 
     @Nested
     inner class `Save todo list` {
@@ -131,6 +133,36 @@ class TodoListControllerTests {
         }
     }
 
+    @Nested
+    inner class `Add todo to List` {
+        @Test
+        fun `if the operation was successful, respond with no content`() {
+            whenever(addTodoToListInteractor.call(any(), any())).doAnswer {}
+
+            webTestClient.addTodoToList()
+                .expectStatus()
+                .isNoContent
+        }
+
+        @Test
+        fun `if either the list or the todo do not exist, respond with not found`() {
+            whenever(addTodoToListInteractor.call(any(), any())).doThrow(NoSuchElementException())
+
+            webTestClient.addTodoToList()
+                .expectStatus()
+                .isNotFound
+        }
+
+        @Test
+        fun `if the operation is not supported, respond with forbidden`() {
+            whenever(addTodoToListInteractor.call(any(), any())).doThrow(IllegalStateException())
+
+            webTestClient.addTodoToList()
+                .expectStatus()
+                .isForbidden
+        }
+    }
+
     private fun WebTestClient.saveTodoList(
         title: String? = null,
         description: String? = null
@@ -150,6 +182,10 @@ class TodoListControllerTests {
 
     private fun WebTestClient.getTodosForList(todoListId: Int = 1) = get()
         .uri("/todo-lists/$todoListId/todos")
+        .exchange()
+
+    private fun WebTestClient.addTodoToList(todoListId: Int = 1, todoId: Int = 1) = put()
+        .uri("/todo-lists/$todoListId/todos/$todoId")
         .exchange()
 
 }
