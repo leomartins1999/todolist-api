@@ -1,10 +1,29 @@
 version: '3.8'
 
 services:
+  base-image: &base-image
+    build: .
+
+  tests:
+    <<: *base-image
+    command: ./gradlew test
+
+  todo-api:
+    <<: *base-image
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/todo-db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+    command: ./gradlew bootRun
+
   postgres:
     image: postgres:13.4
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
