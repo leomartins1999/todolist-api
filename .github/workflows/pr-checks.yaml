@@ -1,0 +1,17 @@
+name: PR Checks
+
+on: pull_request
+
+jobs:
+  Build:
+    name: PR Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Gradle build
+        run: ./gradlew build -x test
+      - name: Ktlint Check
+        run: ./gradlew ktlintCheck
+      - name: Unit tests
+        run: ./gradlew test
