@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(value = [TODO_LIST_PATH])
+@RequestMapping(value = [TODO_LISTS_PATH])
 class TodoListController(
     private val saveTodoListInteractor: SaveTodoListInteractor,
     private val getTodoListsInteractor: GetTodoListsInteractor,
