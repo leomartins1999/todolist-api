@@ -1,0 +1,17 @@
+name: Deploy
+
+on: release
+
+jobs:
+  deploy:
+    name: Heroku Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Deploy to Heroku
+        uses: AkhileshNS/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "todo-list-your-day"
+          heroku_email: "asmartins.leonardo1999@gmail.com"
