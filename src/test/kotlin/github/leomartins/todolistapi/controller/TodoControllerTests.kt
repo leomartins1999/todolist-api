@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.doThrow
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -105,11 +106,11 @@ class TodoControllerTests {
     @Nested
     inner class `Update Todo` {
 
+        private val todoId = 1
+        private val updatedTitle = "New title"
+
         @Test
         fun `updates a todo`() {
-            val todoId = 1
-            val updatedTitle = "New title"
-
             whenever(updateTodoInteractor.call(any(), any())).doReturn(
                 Todo(
                     id = todoId,
@@ -124,7 +125,13 @@ class TodoControllerTests {
                 .jsonPath("$.title").isEqualTo(updatedTitle)
         }
 
+        @Test
         fun `if the todo does not exist, the endpoint responds with 404`() {
+            whenever(updateTodoInteractor.call(any(), any())).doThrow(NoSuchElementException())
+
+            webTestClient.updateTodo(todoId, title = updatedTitle)
+                .expectStatus()
+                .isNotFound
         }
     }
 
