@@ -1,6 +1,5 @@
 package github.leomartins.todolistapi.controller
 
-import github.leomartins.todolistapi.domain.Todo
 import github.leomartins.todolistapi.dto.WriteTodo
 import github.leomartins.todolistapi.interactor.GetTodosInteractor
 import github.leomartins.todolistapi.interactor.SaveTodoInteractor
@@ -25,7 +24,7 @@ class TodoController(
     fun getTodos() = getTodosInteractor.call()
 
     @PostMapping
-    fun saveTodo(@RequestBody todo: Todo) = saveTodoInteractor.call(todo)
+    fun saveTodo(@RequestBody todo: WriteTodo) = saveTodoInteractor.call(todo)
 
     @PutMapping(value = [TODO_PATH])
     fun updateTodo(@PathVariable todoId: Int, @RequestBody update: WriteTodo) =

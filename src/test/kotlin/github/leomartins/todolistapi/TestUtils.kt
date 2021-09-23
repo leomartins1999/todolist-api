@@ -2,6 +2,7 @@ package github.leomartins.todolistapi
 
 import github.leomartins.todolistapi.domain.Todo
 import github.leomartins.todolistapi.domain.TodoList
+import github.leomartins.todolistapi.dto.WriteTodo
 
 fun buildTodo() = Todo(
     title = "todo-${System.currentTimeMillis()}",
@@ -10,6 +11,8 @@ fun buildTodo() = Todo(
 )
 
 fun Todo.isEqualTo(other: Todo) = title == other.title && description == other.description && done == other.done
+
+fun Todo.toWriteTodo() = WriteTodo(title, description, done)
 
 fun buildTodoList() = TodoList(
     title = "todo-list-${System.currentTimeMillis()}",

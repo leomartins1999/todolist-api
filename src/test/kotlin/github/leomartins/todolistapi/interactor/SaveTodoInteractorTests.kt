@@ -3,6 +3,7 @@ package github.leomartins.todolistapi.interactor
 import github.leomartins.todolistapi.buildTodo
 import github.leomartins.todolistapi.isEqualTo
 import github.leomartins.todolistapi.repository.TodoRepository
+import github.leomartins.todolistapi.toWriteTodo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -25,10 +26,21 @@ class SaveTodoInteractorTests {
     fun `saves a todo`() {
         val todo = buildTodo()
 
-        val result = interactor.call(todo)
+        val result = interactor.call(todo.toWriteTodo())
 
         assert(todo.isEqualTo(result))
         assertEquals(1, repository.count())
         assert(todo.isEqualTo(repository.findAll().first()))
+    }
+
+    @Test
+    fun `saves another todo`() {
+        val todo = repository.save(buildTodo())
+
+        val anotherTodo = todo.copy(title = "Updated todo")
+
+        interactor.call(anotherTodo.toWriteTodo())
+
+        assertEquals(2, repository.count())
     }
 }
