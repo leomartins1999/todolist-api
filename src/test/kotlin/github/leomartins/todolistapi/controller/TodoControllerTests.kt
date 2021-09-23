@@ -1,8 +1,10 @@
 package github.leomartins.todolistapi.controller
 
 import github.leomartins.todolistapi.buildTodo
+import github.leomartins.todolistapi.domain.Todo
 import github.leomartins.todolistapi.interactor.GetTodosInteractor
 import github.leomartins.todolistapi.interactor.SaveTodoInteractor
+import github.leomartins.todolistapi.interactor.UpdateTodoInteractor
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -25,6 +27,9 @@ class TodoControllerTests {
 
     @MockBean
     private lateinit var saveTodoInteractor: SaveTodoInteractor
+
+    @MockBean
+    private lateinit var updateTodoInteractor: UpdateTodoInteractor
 
     @Nested
     inner class `Get todos` {
@@ -97,6 +102,32 @@ class TodoControllerTests {
         }
     }
 
+    @Nested
+    inner class `Update Todo` {
+
+        @Test
+        fun `updates a todo`() {
+            val todoId = 1
+            val updatedTitle = "New title"
+
+            whenever(updateTodoInteractor.call(any(), any())).doReturn(
+                Todo(
+                    id = todoId,
+                    title = updatedTitle
+                )
+            )
+
+            webTestClient.updateTodo(todoId, title = updatedTitle)
+                .expectStatus()
+                .isOk
+                .expectBody()
+                .jsonPath("$.title").isEqualTo(updatedTitle)
+        }
+
+        fun `if the todo does not exist, the endpoint responds with 404`() {
+        }
+    }
+
     private fun WebTestClient.getTodos() = get()
         .uri("/todos")
         .exchange()
@@ -107,12 +138,26 @@ class TodoControllerTests {
         done: Boolean? = null
     ) = post()
         .uri("/todos")
-        .bodyValue(
-            mapOf(
-                "title" to title,
-                "description" to description,
-                "done" to done
-            )
-        )
+        .bodyValue(buildWriteTodo(title, description, done))
         .exchange()
+
+    private fun WebTestClient.updateTodo(
+        id: Int,
+        title: String = "title",
+        description: String? = null,
+        done: Boolean? = null
+    ) = put()
+        .uri("/todos/$id")
+        .bodyValue(buildWriteTodo(title, description, done))
+        .exchange()
+
+    private fun buildWriteTodo(
+        title: String? = null,
+        description: String? = null,
+        done: Boolean? = null
+    ) = mapOf(
+        "title" to title,
+        "description" to description,
+        "done" to done
+    )
 }
