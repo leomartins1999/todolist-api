@@ -20,6 +20,8 @@ class UpdateTodoInteractor(
         copy(
             title = update.title,
             description = update.description,
-            done = update.done
+            dueDate = update.dueDate,
+            difficulty = update.difficulty,
+            status = update.status,
         )
 }
