@@ -28,6 +28,7 @@ class TodoListController(
     fun getTodoLists() = getTodoListsInteractor.call()
 
     @PostMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
     fun saveTodoList(@RequestBody todoList: TodoList) = saveTodoListInteractor.call(todoList)
 
     @GetMapping(value = [TODOS_FOR_LIST_PATH])
