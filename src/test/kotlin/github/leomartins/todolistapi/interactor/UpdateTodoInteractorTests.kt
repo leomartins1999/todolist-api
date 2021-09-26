@@ -2,6 +2,7 @@ package github.leomartins.todolistapi.interactor
 
 import github.leomartins.todolistapi.buildTodo
 import github.leomartins.todolistapi.domain.Todo
+import github.leomartins.todolistapi.domain.TodoStatus
 import github.leomartins.todolistapi.dto.WriteTodo
 import github.leomartins.todolistapi.repository.TodoRepository
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -40,12 +41,12 @@ class UpdateTodoInteractorTests {
 
         assertEquals(update.title, updatedTodo.title)
         assertEquals(update.description, updatedTodo.description)
-        assertEquals(update.done, updatedTodo.done)
+        assertEquals(update.status, updatedTodo.status)
 
         assertEquals(todo.id, result.id)
         assertEquals(update.title, result.title)
         assertEquals(update.description, result.description)
-        assertEquals(update.done, result.done)
+        assertEquals(update.status, result.status)
     }
 
     @Test
@@ -58,7 +59,7 @@ class UpdateTodoInteractorTests {
     private fun buildUpdateTodo() = WriteTodo(
         "Updated title",
         "Updated description",
-        true
+        status = TodoStatus.DOING
     )
 
     private companion object {

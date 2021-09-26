@@ -8,7 +8,7 @@ data class Todo(
     val id: Int = 0,
     val title: String,
     val description: String? = null,
-    val done: Boolean = false,
     val dueDate: LocalDateTime? = null,
-    val difficulty: TodoDifficulty? = null
+    val difficulty: TodoDifficulty? = null,
+    val status: TodoStatus? = TodoStatus.TODO
 )
