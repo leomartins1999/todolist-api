@@ -60,7 +60,7 @@ class TodoControllerTests {
                 .jsonPath("$.length()").isEqualTo(2)
                 .jsonPath("$[0].title").isEqualTo(todos[0].title)
                 .jsonPath("$[0].description").isEqualTo(todos[0].description!!)
-                .jsonPath("$[0].done").isEqualTo(todos[0].done)
+                .jsonPath("$[0].status").isEqualTo(todos[0].status.toString())
                 .jsonPath("$[1].title").isEqualTo(todos[1].title)
         }
     }
@@ -74,14 +74,14 @@ class TodoControllerTests {
 
             whenever(saveTodoInteractor.call(any())).doReturn(todo)
 
-            webTestClient.saveTodo(title = todo.title, description = todo.description, done = todo.done)
+            webTestClient.saveTodo(title = todo.title, description = todo.description, status = todo.status.toString())
                 .expectStatus()
                 .isCreated
                 .expectBody()
                 .jsonPath("$.id").isNotEmpty
                 .jsonPath("$.title").isEqualTo(todo.title)
                 .jsonPath("$.description").isEqualTo(todo.description!!)
-                .jsonPath("$.done").isEqualTo(todo.done)
+                .jsonPath("$.status").isEqualTo(todo.status.toString())
         }
 
         @Test
@@ -127,6 +127,20 @@ class TodoControllerTests {
                 .jsonPath("$.due_date").isEqualTo(dueDateString)
                 .jsonPath("$.difficulty").isEqualTo(todo.difficulty.toString())
         }
+
+        @Test
+        fun `if the difficulty is invalid, the endpoint returns 400`() {
+            webTestClient.saveTodo(difficulty = "fake-difficulty")
+                .expectStatus()
+                .isBadRequest
+        }
+
+        @Test
+        fun `if the status is invalid, the endpoint returns 400`() {
+            webTestClient.saveTodo(status = "fake-status")
+                .expectStatus()
+                .isBadRequest
+        }
     }
 
     @Nested
@@ -168,35 +182,35 @@ class TodoControllerTests {
     private fun WebTestClient.saveTodo(
         title: String? = null,
         description: String? = null,
-        done: Boolean? = null,
         dueDate: String? = null,
-        difficulty: String? = null
+        difficulty: String? = null,
+        status: String? = null,
     ) = post()
         .uri("/todos")
-        .bodyValue(buildWriteTodo(title, description, done, dueDate, difficulty))
+        .bodyValue(buildWriteTodo(title, description, dueDate, difficulty, status))
         .exchange()
 
     private fun WebTestClient.updateTodo(
         id: Int,
         title: String = "title",
         description: String? = null,
-        done: Boolean? = null
+        status: String? = null
     ) = put()
         .uri("/todos/$id")
-        .bodyValue(buildWriteTodo(title, description, done))
+        .bodyValue(buildWriteTodo(title, description, status = status))
         .exchange()
 
     private fun buildWriteTodo(
         title: String? = null,
         description: String? = null,
-        done: Boolean? = null,
         dueDate: String? = null,
-        difficulty: String? = null
+        difficulty: String? = null,
+        status: String? = null
     ) = mapOf(
         "title" to title,
         "description" to description,
-        "done" to done,
         "due_date" to dueDate,
-        "difficulty" to difficulty
+        "difficulty" to difficulty,
+        "status" to status,
     )
 }
